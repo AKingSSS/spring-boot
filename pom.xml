@@ -5,6 +5,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>spring-boot-01-8080</module>
+        <module>spring-boot-02-8081</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
