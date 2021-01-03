@@ -1,0 +1,21 @@
+server:
+  port: 8081
+
+person:
+  username: aking
+  age: 3
+
+dog:
+  name: xiaoxiao
+  age: 3
+  happy: true
+  birth: 2021/01/01
+  items:
+    - nan
+    - bei
+    - xi
+    - dong
+  maps: {k1:v1,k2:v2}
+  person:
+    username: aking
+    age: 13
