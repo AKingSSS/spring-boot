@@ -8,7 +8,6 @@
         <module>spring-boot-02-8081</module>
         <module>spring-boot-03-8082</module>
         <module>spring-boot-04-8083</module>
-        <module>spring-boot-client-01</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
