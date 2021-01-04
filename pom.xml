@@ -4,10 +4,11 @@
     <modelVersion>4.0.0</modelVersion>
     <packaging>pom</packaging>
     <modules>
-        <module>spring-boot-01-8080</module>
-        <module>spring-boot-02-8081</module>
-        <module>spring-boot-03-8082</module>
-        <module>spring-boot-04-8083</module>
+        <module>spring-boot-01-8080-banner</module>
+        <module>spring-boot-02-8081-autoconfig</module>
+        <module>spring-boot-03-8082-properties</module>
+        <module>spring-boot-04-8083-format</module>
+        <module>spring-boot-05-8084-log</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -41,10 +42,16 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <!--读取配置文件属性需要-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
+        </dependency>
+        <!--日志-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-logging</artifactId>
         </dependency>
     </dependencies>
     <build>

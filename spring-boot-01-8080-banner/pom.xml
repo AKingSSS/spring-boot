@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>spring-boot-01-8080</artifactId>
+    <artifactId>spring-boot-01-8080-banner</artifactId>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
