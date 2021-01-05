@@ -10,6 +10,8 @@
         <module>spring-boot-04-8083-format</module>
         <module>spring-boot-05-8084-log</module>
         <module>spring-boot-06-8085-mylog</module>
+        <module>spring-boot-client-02-redis</module>
+        <module>spring-boot-07-8086-redis</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
