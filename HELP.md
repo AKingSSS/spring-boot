@@ -3,3 +3,4 @@
 ### spring-boot-03-8082-properties：配置参数读取&配置文件优先级 
 ### spring-boot-04-8083-format：@JsonFormat 使用 
 ### spring-boot-05-8084-log：日志使用 
+### spring-boot-06-8085-mylog：自定义日志注解

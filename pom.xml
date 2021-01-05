@@ -9,6 +9,7 @@
         <module>spring-boot-03-8082-properties</module>
         <module>spring-boot-04-8083-format</module>
         <module>spring-boot-05-8084-log</module>
+        <module>spring-boot-06-8085-mylog</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -52,6 +53,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-logging</artifactId>
+        </dependency>
+        <!--gson-->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
         </dependency>
     </dependencies>
     <build>
