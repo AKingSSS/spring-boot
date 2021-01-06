@@ -1,7 +1,6 @@
 package com.aking.learn.service;
 
-import com.aking.learn.pojo.Student;
-import com.sun.org.apache.xpath.internal.operations.Bool;
+import com.aking.learn.domain.Student;
 
 /**
  * <p>

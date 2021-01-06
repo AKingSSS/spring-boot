@@ -1,4 +1,4 @@
-package com.aking.learn.pojo;
+package com.aking.learn.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;

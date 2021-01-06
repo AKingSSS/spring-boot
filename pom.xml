@@ -12,6 +12,7 @@
         <module>spring-boot-06-8085-mylog</module>
         <module>spring-boot-client-02-redis</module>
         <module>spring-boot-07-8086-redis</module>
+        <module>spring-boot-08-8087-mybatisplus</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

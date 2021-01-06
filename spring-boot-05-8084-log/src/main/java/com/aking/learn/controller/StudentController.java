@@ -1,6 +1,6 @@
 package com.aking.learn.controller;
 
-import com.aking.learn.pojo.Student;
+import com.aking.learn.domain.Student;
 import com.aking.learn.service.StudentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.aking.learn.pojo;
+package com.aking.learn.domain;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

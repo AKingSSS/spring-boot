@@ -1,8 +1,8 @@
 package com.aking.learn;
 
-import com.aking.learn.pojo.Dog;
-import com.aking.learn.pojo.Person;
-import com.aking.learn.pojo.User;
+import com.aking.learn.domain.Dog;
+import com.aking.learn.domain.Person;
+import com.aking.learn.domain.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

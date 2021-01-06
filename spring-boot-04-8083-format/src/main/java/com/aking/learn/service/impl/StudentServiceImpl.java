@@ -1,10 +1,9 @@
 package com.aking.learn.service.impl;
 
-import com.aking.learn.pojo.Student;
+import com.aking.learn.domain.Student;
 import com.aking.learn.service.StudentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import sun.rmi.runtime.Log;
 
 import java.util.Date;
 
