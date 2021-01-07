@@ -1,7 +1,7 @@
 package com.aking.learn.utils;
 
 import cn.hutool.core.util.StrUtil;
-import com.aking.enums.ResponseEnums;
+import com.aking.learn.enums.ResponseEnums;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.boot.configurationprocessor.json.JSONObject;

@@ -1,4 +1,4 @@
-package com.aking.enums;
+package com.aking.learn.enums;
 
 /**
  * <p>
