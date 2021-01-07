@@ -28,17 +28,16 @@ public class CodeGenerator {
         GlobalConfig gc = new GlobalConfig();
         String projectPath = System.getProperty("user.dir");
         // 输出路径
-        gc.setOutputDir(projectPath + "/src/main/java");
+        gc.setOutputDir(projectPath + "/spring-boot-09-8088-autogenerator/src/main/java");
         gc.setAuthor("aking");
         // 是否打开资源管理器
         gc.setOpen(false);
         // 是否覆盖
-        gc.setFileOverride(false);
+        gc.setFileOverride(true);
         // gc.setSwagger2(true); 实体属性 Swagger2 注解
         // 默认带I前缀
         gc.setServiceName("%sService");
-        gc.setServiceImplName("%sService");
-        gc.setControllerName("com.aking.learn.controller");
+        gc.setServiceImplName("%sServiceImpl");
         gc.setIdType(IdType.AUTO);
         gc.setDateType(DateType.ONLY_DATE);
 
@@ -54,6 +53,7 @@ public class CodeGenerator {
 
         // 3、包的配置
         PackageConfig pc = new PackageConfig();
+        pc.setModuleName("result");
         pc.setParent("com.aking.learn");
         pc.setEntity("domain");
         pc.setController("controller");
@@ -62,16 +62,6 @@ public class CodeGenerator {
         pc.setMapper("mapper");
 
         mpg.setPackageInfo(pc);
-
-        // 3、模板配置????
-        TemplateConfig templateConfig = new TemplateConfig();
-
-        // 配置自定义输出模板
-        //指定自定义模板路径，注意不要带上.ftl/.vm, 会根据使用的模板引擎自动识别
-         templateConfig.setEntity("templates/beanTemplate");
-
-        templateConfig.setXml(null);
-        mpg.setTemplate(templateConfig);
 
         // 4、策略配置
         StrategyConfig strategy = new StrategyConfig();
@@ -89,6 +79,8 @@ public class CodeGenerator {
         TableFill tf1 = new TableFill("create_time", FieldFill.INSERT);
         TableFill tf2 = new TableFill("modified_time", FieldFill.INSERT_UPDATE);
         ArrayList<TableFill> list = new ArrayList<>();
+        list.add(tf1);
+        list.add(tf2);
         strategy.setTableFillList(list);
         // 需要映射的表
         strategy.setInclude("user".split(","));
