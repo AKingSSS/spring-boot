@@ -16,13 +16,13 @@
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
     <dependencies>
-        <!--引入本地包，不会集成到部署包-->
-        <dependency>
+        <!--引入本地包，不会集成到部署包--><!--        <dependency>
             <groupId>com.aking</groupId>
             <artifactId>spring-boot-client</artifactId>
             <version>1.0</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/spring-boot-client.jar</systemPath>
-        </dependency>
+        </dependency>-->
+
     </dependencies>
 </project>

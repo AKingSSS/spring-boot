@@ -2,7 +2,9 @@ package com.aking.learn.domain;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 import java.util.Date;
@@ -17,7 +19,9 @@ import java.util.Date;
  */
 @Data
 @Accessors(chain = true) // 链式调用
-public class User extends AbstractDataDomain {
+@TableName(value = "user")
+@NoArgsConstructor
+public class UserDO extends AbstractDataDomain {
     @TableId (type=IdType.AUTO)
     private Long id;
     private String name;

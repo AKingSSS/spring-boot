@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.aking.learn.mapper.UserMapper">
 
-    <select id="getUserById" resultType="com.aking.learn.domain.User">
-        select * from user where id = #{id}
+    <select id="getUserById" resultType="com.aking.learn.domain.UserDO">
+        select * from userDO where id = #{id}
     </select>
 
 </mapper>
