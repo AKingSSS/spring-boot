@@ -1,18 +1,19 @@
 package com.aking.learn;
 
 import cn.hutool.core.convert.Convert;
-import cn.hutool.json.JSON;
 import com.aking.learn.domain.User;
 import com.aking.learn.utils.ElasticsearchUtil;
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.RangeQueryBuilder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -58,6 +59,22 @@ public class LearnApplication8089Test {
         }
     }
 
+    /**
+     * 批量增加
+     */
+    @Test
+    public void bulkAdd() {
+        User user1 = new User().setName("qingqing").setAge(14).setId(101L);
+        User user2 = new User().setName("qingqing").setAge(14).setId(102L);
+        User user3 = new User().setName("qingqing").setAge(14).setId(103L);
+        User user4 = new User().setName("qingqing").setAge(14).setId(104L);
+        List<User> users = new ArrayList<>();
+        users.add(user1);
+        users.add(user2);
+        users.add(user3);
+        users.add(user4);
+        elasticsearchUtil.bulkPost(INDEX, users);
+    }
 
     /**
      * 更新
@@ -85,4 +102,47 @@ public class LearnApplication8089Test {
             log.error("searchDataById error:[{}]", e);
         }
     }
+
+    /**
+     * 批量查询
+     */
+    @Test
+    public void bulkSearchByIds() {
+        List<Integer> ids = new ArrayList<>();
+        ids.add(1);
+        ids.add(2);
+        try {
+            List<Map<String, Object>> maps = elasticsearchUtil.searchDataByIds(INDEX, ids);
+            log.info("maps = " + new Gson().toJson(maps));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 复合查询
+     */
+    @Test
+    public void multiSearch() {
+        try {
+            SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
+            // 模糊查询，失效？？？
+            //sourceBuilder.query(QueryBuilders.fuzzyQuery("name","qing"));
+            // 根据字段查询(精确查找)
+            //sourceBuilder.query(QueryBuilders.termQuery("name", "qing"));
+            // 通配符查询
+            //sourceBuilder.query(QueryBuilders.wildcardQuery("name","*qing*"));
+            // 范围查询
+            RangeQueryBuilder rangeQueryBuilder = QueryBuilders.rangeQuery("age");
+            rangeQueryBuilder.gte(18);
+            sourceBuilder.query(rangeQueryBuilder);
+            List<Map<String, Object>> list = elasticsearchUtil.searchListData(INDEX, sourceBuilder,
+                    100, 0, null, "age",
+                    false, "");
+            log.info("list = " + new Gson().toJson(list));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

@@ -7,8 +7,7 @@ import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.action.delete.DeleteRequest;
-import org.elasticsearch.action.get.GetRequest;
-import org.elasticsearch.action.get.GetResponse;
+import org.elasticsearch.action.get.*;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchRequest;
@@ -19,6 +18,7 @@ import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.client.indices.CreateIndexRequest;
+import org.elasticsearch.client.indices.CreateIndexResponse;
 import org.elasticsearch.client.indices.GetIndexRequest;
 import org.elasticsearch.common.Strings;
 import org.elasticsearch.common.text.Text;
@@ -33,15 +33,15 @@ import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.fetch.subphase.FetchSourceContext;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightField;
+import org.elasticsearch.search.sort.FieldSortBuilder;
 import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * <p>
@@ -71,7 +71,7 @@ public class ElasticsearchUtil {
         //1.创建索引请求
         CreateIndexRequest request = new CreateIndexRequest(index);
         //2.执行客户端请求
-        org.elasticsearch.client.indices.CreateIndexResponse response = restHighLevelClient.indices()
+        CreateIndexResponse response = restHighLevelClient.indices()
                 .create(request, RequestOptions.DEFAULT);
         return response.isAcknowledged();
     }
@@ -116,7 +116,7 @@ public class ElasticsearchUtil {
     public String addData(Object object, String index, String id) throws IOException {
         //创建请求
         IndexRequest request = new IndexRequest(index);
-        //规则 put /test_index/_doc/1
+        //规则 put /test_index/_doc/1，如果不写，会自动生成id
         request.id(id);
         request.timeout(TimeValue.timeValueSeconds(1));
         //将数据放入请求 json
@@ -183,6 +183,24 @@ public class ElasticsearchUtil {
     }
 
     /**
+     * 批量 IDs 查询
+     *
+     * @param index   索引，类似数据库
+     * @param objects id 集合
+     * @return
+     */
+    public List<Map<String, Object>> searchDataByIds(String index, List<?> objects) throws IOException {
+        MultiGetRequest request = new MultiGetRequest();
+        MultiGetResponse response = null;
+        for (Object object : objects) {
+            request.add(new MultiGetRequest.Item(index, new Gson().toJson(object)));
+        }
+        response = restHighLevelClient.mget(request, RequestOptions.DEFAULT);
+        return Arrays.stream(response.getResponses()).
+                map(r -> r.getResponse().getSource()).collect(Collectors.toList());
+    }
+
+    /**
      * 通过ID判断文档是否存在
      *
      * @param index 索引，类似数据库
@@ -198,7 +216,7 @@ public class ElasticsearchUtil {
     }
 
     /**
-     * 批量插入false成功
+     * 批量插入
      *
      * @param index   索引，类似数据库
      * @param objects 数据
@@ -282,6 +300,7 @@ public class ElasticsearchUtil {
                                                     Integer from,
                                                     String fields,
                                                     String sortField,
+                                                    Boolean asc,
                                                     String highlightField) throws IOException {
         SearchRequest request = new SearchRequest(index);
         SearchSourceBuilder builder = query;
@@ -289,22 +308,30 @@ public class ElasticsearchUtil {
             //只查询特定字段。如果需要查询所有字段则不设置该项。
             builder.fetchSource(new FetchSourceContext(true, fields.split(","), Strings.EMPTY_ARRAY));
         }
-        from = from <= 0 ? 0 : from * size;
-        //设置确定结果要从哪个索引开始搜索的from选项，默认为0
-        builder.from(from);
-        builder.size(size);
-        if (StrUtil.isNotEmpty(sortField)) {
-            //排序字段，注意如果proposal_no是text类型会默认带有keyword性质，需要拼接.keyword
-            builder.sort(sortField + ".keyword", SortOrder.ASC);
+        if (size != null && from != null) {
+            from = from <= 0 ? 0 : from * size;
+            //设置确定结果要从哪个索引开始搜索的from选项，默认为0
+            builder.from(from);
+            builder.size(size);
         }
-        //高亮
-        HighlightBuilder highlight = new HighlightBuilder();
-        highlight.field(highlightField);
-        //关闭多个高亮
-        highlight.requireFieldMatch(false);
-        highlight.preTags("<span style='color:red'>");
-        highlight.postTags("</span>");
-        builder.highlighter(highlight);
+        if (StrUtil.isNotEmpty(sortField) && asc != null) {
+            //排序字段，注意如果proposal_no是text类型会默认带有keyword性质，需要拼接.keyword
+            if (asc) {
+                builder.sort(new FieldSortBuilder(sortField).order(SortOrder.ASC));
+            } else {
+                builder.sort(new FieldSortBuilder(sortField).order(SortOrder.DESC));
+            }
+        }
+        if (StrUtil.isNotEmpty(highlightField)) {
+            //高亮
+            HighlightBuilder highlight = new HighlightBuilder();
+            highlight.field(highlightField);
+            //关闭多个高亮
+            highlight.requireFieldMatch(false);
+            highlight.preTags("<span style='color:red'>");
+            highlight.postTags("</span>");
+            builder.highlighter(highlight);
+        }
         //不返回源数据。只有条数之类的数据。
 //        builder.fetchSource(false);
         request.source(builder);
@@ -346,5 +373,4 @@ public class ElasticsearchUtil {
         }
         return list;
     }
-
 }
