@@ -51,7 +51,7 @@ public class LearnApplication8089Test {
      */
     @Test
     public void add() {
-        User user = new User().setName("qingqing").setAge(14).setId(3L);
+        User user = (User) new User().setName("qingqing").setAge(14).setId(3L);
         try {
             elasticsearchUtil.addData(user, INDEX, user.getId().toString());
         } catch (IOException e) {
@@ -64,10 +64,10 @@ public class LearnApplication8089Test {
      */
     @Test
     public void bulkAdd() {
-        User user1 = new User().setName("qingqing").setAge(14).setId(101L);
-        User user2 = new User().setName("qingqing").setAge(14).setId(102L);
-        User user3 = new User().setName("qingqing").setAge(14).setId(103L);
-        User user4 = new User().setName("qingqing").setAge(14).setId(104L);
+        User user1 = (User) new User().setName("qingguo").setAge(15).setId(91L);
+        User user2 = (User) new User().setName("qingcheng").setAge(24).setId(92L);
+        User user3 = (User) new User().setName("qingren").setAge(44).setId(93L);
+        User user4 = (User) new User().setName("qingmen").setAge(34).setId(94L);
         List<User> users = new ArrayList<>();
         users.add(user1);
         users.add(user2);
@@ -81,7 +81,7 @@ public class LearnApplication8089Test {
      */
     @Test
     public void update() {
-        User user = new User().setName("qing").setAge(18).setId(1L);
+        User user = (User) new User().setName("qing").setAge(18).setId(1L);
         try {
             elasticsearchUtil.updateDataById(user, INDEX, user.getId().toString());
         } catch (IOException e) {

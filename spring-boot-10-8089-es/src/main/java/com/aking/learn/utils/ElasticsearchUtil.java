@@ -1,13 +1,17 @@
 package com.aking.learn.utils;
 
 import cn.hutool.core.util.StrUtil;
+import com.aking.learn.domain.AbstractDataDomain;
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.action.delete.DeleteRequest;
-import org.elasticsearch.action.get.*;
+import org.elasticsearch.action.get.GetRequest;
+import org.elasticsearch.action.get.GetResponse;
+import org.elasticsearch.action.get.MultiGetRequest;
+import org.elasticsearch.action.get.MultiGetResponse;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchRequest;
@@ -41,7 +45,6 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * <p>
@@ -222,15 +225,17 @@ public class ElasticsearchUtil {
      * @param objects 数据
      * @return
      */
-    public boolean bulkPost(String index, List<?> objects) {
+    public boolean bulkPost(String index, List<? extends AbstractDataDomain> objects) {
         BulkRequest bulkRequest = new BulkRequest();
         BulkResponse response = null;
         //最大数量不得超过20万
-        for (Object object : objects) {
+        objects.forEach(e->{
             IndexRequest request = new IndexRequest(index);
-            request.source(new Gson().toJson(object), XContentType.JSON);
+            request.source(new Gson().toJson(e), XContentType.JSON);
+            // 设置 index/_doc/id
+            request.id(String.valueOf(e.getId()));
             bulkRequest.add(request);
-        }
+        });
         try {
             response = restHighLevelClient.bulk(bulkRequest, RequestOptions.DEFAULT);
         } catch (IOException e) {

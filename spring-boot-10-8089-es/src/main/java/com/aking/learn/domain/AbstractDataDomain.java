@@ -9,11 +9,10 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author yk
- * @date 2021-01-08
+ * @date 2021-01-11
  */
 @Data
 @Accessors(chain = true)
-public class User extends AbstractDataDomain{
-    private String name;
-    private Integer age;
+public abstract class AbstractDataDomain {
+    private Long id;
 }
