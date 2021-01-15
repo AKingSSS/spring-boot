@@ -16,6 +16,8 @@
         <module>spring-boot-09-8088-autogenerator</module>
         <module>spring-boot-10-8089-es</module>
         <module>spring-boot-11-8090-rocketmq-client</module>
+        <module>spring-boot-12-8091-rocket-starter-provider</module>
+        <module>spring-boot-13-8092-rocket-starter-consumer</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
