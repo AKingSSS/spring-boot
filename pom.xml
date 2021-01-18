@@ -18,6 +18,10 @@
         <module>spring-boot-11-8090-rocketmq-client</module>
         <module>spring-boot-12-8091-rocket-starter-provider</module>
         <module>spring-boot-13-8092-rocket-starter-consumer</module>
+        <module>spring-boot-14-8093-dubbo-provider</module>
+        <module>spring-boot-15-8094-dubbo-provider</module>
+        <module>spring-boot-16-8095-dubbo-consumer</module>
+        <module>spring-boot-client-03-dubbo</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
