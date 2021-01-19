@@ -35,3 +35,7 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4;
 ```
 
+
+- actuator监控
+    - http://localhost:8087/actuator
+
