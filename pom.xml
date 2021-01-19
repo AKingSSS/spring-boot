@@ -22,6 +22,7 @@
         <module>spring-boot-15-8094-dubbo-provider</module>
         <module>spring-boot-16-8095-dubbo-consumer</module>
         <module>spring-boot-client-03-dubbo</module>
+        <module>spring-boot-17-8096-netty</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
