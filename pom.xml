@@ -23,6 +23,7 @@
         <module>spring-boot-16-8095-dubbo-consumer</module>
         <module>spring-boot-client-03-dubbo</module>
         <module>spring-boot-17-8096-netty</module>
+        <module>spring-boot-18-8097-easyexcel</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
