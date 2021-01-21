@@ -1,12 +1,16 @@
 package com.aking.learn.utils;
 
 import cn.hutool.core.collection.CollectionUtil;
+import com.aking.learn.pojo.UploadData;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.ExcelWriter;
+import com.alibaba.excel.event.AnalysisEventListener;
 import com.alibaba.excel.write.builder.ExcelWriterSheetBuilder;
 import com.alibaba.excel.write.metadata.WriteSheet;
 import com.alibaba.excel.write.style.column.LongestMatchColumnWidthStyleStrategy;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.poi.ss.formula.functions.T;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -27,6 +31,7 @@ public class ExcelUtil {
 
     /**
      * 下载单一sheet的 excel
+     * 自动关闭流
      *
      * @param response
      * @param fileName
@@ -75,7 +80,37 @@ public class ExcelUtil {
                 excelWriter.write(list.get(i), writeSheet);
             }
         }
+        // 关闭流
         excelWriter.finish();
+    }
+
+
+    /**
+     * 上传Excel，读取单sheet
+     *
+     * @param file
+     * @param tClass
+     * @param listener
+     * @param <T>
+     * @param <K>
+     */
+    public static <T, K> void uploadOneSheetExcel(MultipartFile file, Class<T> tClass,
+                                          AnalysisEventListener<K> listener) throws IOException {
+        EasyExcel.read(file.getInputStream(), tClass, listener).sheet().doRead();
+    }
+
+    /**
+     * 上传Excel，读取多sheet
+     *
+     * @param file
+     * @param tClass
+     * @param listener
+     * @param <T>
+     * @param <K>
+     */
+    public static <T, K> void uploadManySheetsExcel(MultipartFile file, Class<T> tClass,
+                                                  AnalysisEventListener<K> listener) throws IOException {
+        EasyExcel.read(file.getInputStream(), tClass, listener).doReadAll();
     }
 
     /**

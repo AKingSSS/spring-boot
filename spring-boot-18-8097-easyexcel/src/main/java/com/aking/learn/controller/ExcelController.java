@@ -1,13 +1,20 @@
 package com.aking.learn.controller;
 
+import com.aking.learn.listener.UploadDataListener;
 import com.aking.learn.pojo.IndexData;
+import com.aking.learn.pojo.UploadData;
+import com.aking.learn.service.UploadService;
 import com.aking.learn.utils.ExcelUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -25,6 +32,8 @@ import java.util.Random;
 @RequestMapping("/excel")
 @Slf4j
 public class ExcelController {
+    @Autowired
+    private UploadService uploadService;
 
     /**
      * 下载单个sheet的excel
@@ -80,6 +89,37 @@ public class ExcelController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+
+    /**
+     * 文件上传,读取单sheet
+     * <p>
+     * 1. 创建excel对应的实体对象 参照{@link UploadData}
+     * <p>
+     * 2. 由于默认一行行的读取excel，所以需要创建excel一行一行的回调监听器，参照{@link UploadDataListener}
+     * <p>
+     * 3. 直接读即可
+     */
+    @PostMapping("uploadOneSheetExcel")
+    public String uploadOneSheetExcel(MultipartFile file) throws IOException {
+        ExcelUtil.uploadOneSheetExcel(file, UploadData.class,new UploadDataListener(uploadService));
+        return "success";
+    }
+
+    /**
+     * 文件上传，读取多sheets
+     * <p>
+     * 1. 创建excel对应的实体对象 参照{@link UploadData}
+     * <p>
+     * 2. 由于默认一行行的读取excel，所以需要创建excel一行一行的回调监听器，参照{@link UploadDataListener}
+     * <p>
+     * 3. 直接读即可
+     */
+    @PostMapping("uploadManySheetsExcel")
+    public String uploadManySheetsExcel(MultipartFile file) throws IOException {
+        ExcelUtil.uploadManySheetsExcel(file, UploadData.class,new UploadDataListener(uploadService));
+        return "success";
     }
 
     /**
