@@ -4,6 +4,7 @@
 ### spring-boot-04-8083-format：@JsonFormat 使用 
 ### spring-boot-05-8084-log：日志使用 
 ### spring-boot-06-8085-mylog：自定义日志注解
+### spring-boot-07-8086-redis：redis，工具类在 spring-boot-client-02-redis（包含分布式锁）
 ### spring-boot-08-8087-mybatisplus：mybatis-plus & Actuator
 ### spring-boot-09-8088-autogenerator：mybatis-plus & autogenerator
 ### spring-boot-10-8089-es：es搜索
