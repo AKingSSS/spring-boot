@@ -9,6 +9,7 @@ import io.netty.util.CharsetUtil;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
+import java.util.concurrent.TimeUnit;
 
 /**
  * <p>
@@ -34,6 +35,39 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
         ByteBuf byteBuf = (ByteBuf) msg;
         System.out.println("client send msg = " + byteBuf.toString(CharsetUtil.UTF_8));
         System.out.println("client address = " + ctx.channel().remoteAddress());
+
+
+        /**
+         * 异步执行
+         */
+        // 1.用户自定义的普通方法，提交到 taskQueue
+        ctx.channel().eventLoop().execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(1000);
+                    ctx.writeAndFlush(Unpooled.copiedBuffer("hello, client~two", CharsetUtil.UTF_8));
+
+                } catch (Exception e) {
+                    System.out.println("发生异常" + e.getMessage());
+                }
+            }
+        });
+        // 2.用户自定义定时任务,提交到 scheduledTaskQueue
+        ctx.channel().eventLoop().schedule(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(1000);
+                    ctx.writeAndFlush(Unpooled.copiedBuffer("hello, client~three", CharsetUtil.UTF_8));
+
+                } catch (Exception e) {
+                    System.out.println("发生异常" + e.getMessage());
+                }
+            }
+        }, 5, TimeUnit.SECONDS);
+
+        System.out.println("go on....");
     }
 
     /**
@@ -44,7 +78,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
         // 将数据写入到缓存，并刷新
-        ctx.writeAndFlush(Unpooled.copiedBuffer("hello, client~", CharsetUtil.UTF_8));
+        ctx.writeAndFlush(Unpooled.copiedBuffer("hello, client~ one", CharsetUtil.UTF_8));
     }
 
     /**
