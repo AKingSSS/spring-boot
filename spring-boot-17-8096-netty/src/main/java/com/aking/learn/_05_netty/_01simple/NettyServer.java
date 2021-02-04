@@ -28,6 +28,7 @@ public class NettyServer {
 
         /**
          * 创建服务器端的启动对象，配置参数
+         * 服务端启动引导类
          */
         ServerBootstrap bootstrap = new ServerBootstrap();
 
@@ -40,12 +41,16 @@ public class NettyServer {
          * 设置处理器
          */
         bootstrap.group(bossGroup, workerGroup)
+                // 设置服务器通道实现
                 .channel(NioServerSocketChannel.class)
                 .option(ChannelOption.SO_BACKLOG, 128)
+                // 一直保持连接活动状态
                 .childOption(ChannelOption.SO_KEEPALIVE, true)
                 .childHandler(new ChannelInitializer<SocketChannel>() {
                     /**
-                     * 设置处理器
+                     * ChannelHandler 是一个接口，处理 I/O 事件或拦截 I/O 操作，
+                     * 并将其转发到其 ChannelPipeline(业务处理链)中的下一个处理程序。
+                     * ChannelPipeline 是 保存 ChannelHandler 的 List，用于处理或拦截 Channel 的入栈事件和出栈操作
                      * @param ch
                      * @throws Exception
                      */

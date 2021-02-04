@@ -41,7 +41,10 @@ public class TestHttpServerHandler extends SimpleChannelInboundHandler<HttpObjec
                 return;
             }
 
-            // 回复信息给浏览器【http协议】
+            /**
+             * 回复信息给浏览器【http协议】
+             * Netty 提供一个专门用来操作缓冲区(即Netty的数据容器)的工具类 Unpooled
+             */
             ByteBuf content = Unpooled.copiedBuffer("Hello , I AM AKING", CharsetUtil.UTF_8);
 
             // httpResponse
