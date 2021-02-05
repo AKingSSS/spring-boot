@@ -47,7 +47,7 @@ public class GroupChatServer {
                             // 向pipeline加入编码器
                             pipeline.addLast("encoder", new StringEncoder());
                             // 加入自己的业务处理handler
-                            pipeline.addLast(null);
+                            pipeline.addLast(new GroupChatServerHandler());
                         }
                     });
             System.out.println("netty 服务器启动");
@@ -60,5 +60,9 @@ public class GroupChatServer {
             bossGroup.shutdownGracefully();
             workerGroup.shutdownGracefully();
         }
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+        new GroupChatServer(7000).run();
     }
 }
