@@ -25,6 +25,7 @@
         <module>spring-boot-17-8096-netty</module>
         <module>spring-boot-18-8097-easyexcel</module>
         <module>spring-boot-19-8098-redisson</module>
+        <module>spring-boot-20-8099-design-model</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
